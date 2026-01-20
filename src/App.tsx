@@ -1,9 +1,15 @@
+import { Fragment } from "react/jsx-runtime"
+import { BrowserRouter } from "react-router-dom"
+import RouteList from "./route/RouteList"
+
 function App() {
   return (
     <>
-      <div className="h-screen w-full flex items-center justify-center">
-        <h1 className="font-bold text-5xl flex items-center justify-center">Tripdi x NgocGiap</h1>
-      </div >
+      <Fragment>
+        <BrowserRouter>
+          <RouteList />
+        </BrowserRouter>
+      </Fragment>
     </>
   )
 }
