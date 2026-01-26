@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { db } from "@/config/firebase";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import type { IAlbum } from "@/types/photo"
+import type { IAlbum } from "@/types/types"
 import type { ColumnDef } from "@tanstack/react-table"
 
 const PhotoCount = ({ albumId }: { albumId: string | undefined }) => {

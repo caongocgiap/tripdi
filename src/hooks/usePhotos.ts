@@ -4,57 +4,83 @@ import {
   collection,
   query,
   orderBy,
-  onSnapshot,
   where,
+  QueryDocumentSnapshot,
+  type DocumentData,
+  limit,
+  startAfter,
+  getDocs,
 } from "firebase/firestore";
-import type { IAlbum, IPhoto } from "@/types/photo";
+import type { IPhoto } from "@/types/types";
+import { IMAGES_COLLECTION } from "@/constants/collection.constant";
 
-export const usePhotos = (selectedAlbumId: string | null) => {
-  const [albums, setAlbums] = useState<IAlbum[]>([]);
+const PAGE_SIZE = 12;
+
+export const usePhotos = (AlbumId: string | null) => {
   const [photos, setPhotos] = useState<IPhoto[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
 
   useEffect(() => {
-    const q = query(collection(db, "albums"), orderBy("createdAt", "desc"));
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const albumList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as IAlbum[];
-
-      setAlbums(albumList);
-      if (!selectedAlbumId) setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [selectedAlbumId]);
-
-  useEffect(() => {
-    if (!selectedAlbumId) {
+    if (!AlbumId) {
       setPhotos([]);
+      setLastDoc(null);
+      setHasMore(true);
       return;
     }
 
+    fetchFirstPage();
+  }, [AlbumId]);
+
+  const fetchFirstPage = async () => {
     setLoading(true);
+
     const q = query(
-      collection(db, "images"),
-      where("albumId", "==", selectedAlbumId),
-      orderBy("createdAt", "desc")
+      collection(db, IMAGES_COLLECTION),
+      where("albumId", "==", AlbumId),
+      orderBy("createdAt", "desc"),
+      limit(PAGE_SIZE)
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const photoList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as IPhoto[];
+    const snapshot = await getDocs(q);
 
-      setPhotos(photoList);
-      setLoading(false);
-    });
+    const photoList = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as IPhoto[];
 
-    return () => unsubscribe();
-  }, [selectedAlbumId]);
+    setPhotos(photoList);
+    setLastDoc(snapshot.docs[snapshot.docs.length - 1] || null);
+    setHasMore(snapshot.docs.length === PAGE_SIZE);
+    setLoading(false);
+  };
 
-  return { albums, photos, loading };
+  const fetchNextPage = async () => {
+    if (!lastDoc || !hasMore || loading) return;
+
+    setLoading(true);
+
+    const q = query(
+      collection(db, IMAGES_COLLECTION),
+      where("albumId", "==", AlbumId),
+      orderBy("createdAt", "desc"),
+      startAfter(lastDoc),
+      limit(PAGE_SIZE)
+    );
+
+    const snapshot = await getDocs(q);
+
+    const newPhotos = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as IPhoto[];
+
+    setPhotos((prev) => [...prev, ...newPhotos]);
+    setLastDoc(snapshot.docs[snapshot.docs.length - 1] || null);
+    setHasMore(snapshot.docs.length === PAGE_SIZE);
+    setLoading(false);
+  };
+
+  return { photos, loading, hasMore, fetchNextPage };
 };

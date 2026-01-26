@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react";
-import type { IAlbum } from "@/types/photo";
+import type { IAlbum } from "@/types/types";
 
 interface Props {
   album: IAlbum;

@@ -6,15 +6,13 @@ import {
   writeBatch,
   doc,
 } from "firebase/firestore";
-import type { IAlbum, IPhoto } from "@/types/photo";
-
-const COLLECTION_IMAGES = "images";
-const COLLECTION_ALBUMS = "albums";
+import type { IAlbum, IPhoto } from "@/types/types";
+import { IMAGES_COLLECTION, ALBUMS_COLLECTION } from "@/constants/collection.constant";
 
 export const savePhotoMetadata = async (
   photoData: Omit<IPhoto, "id" | "createdAt">
 ) => {
-  return await addDoc(collection(db, COLLECTION_IMAGES), {
+  return await addDoc(collection(db, IMAGES_COLLECTION), {
     ...photoData,
     createdAt: serverTimestamp(),
   });
@@ -24,14 +22,14 @@ export const createAlbumWithPhotos = async (
   albumData: Omit<IAlbum, "id" | "createdAt">,
   photos: { url: string; publicId: string }[]
 ) => {
-  const albumRef = await addDoc(collection(db, COLLECTION_ALBUMS), {
+  const albumRef = await addDoc(collection(db, ALBUMS_COLLECTION), {
     ...albumData,
     createdAt: serverTimestamp(),
   });
 
   const batch = writeBatch(db);
   photos.forEach((p) => {
-    const photoRef = doc(collection(db, COLLECTION_IMAGES));
+    const photoRef = doc(collection(db, IMAGES_COLLECTION));
     batch.set(photoRef, {
       albumId: albumRef.id,
       url: p.url,
