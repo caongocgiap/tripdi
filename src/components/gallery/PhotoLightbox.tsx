@@ -4,6 +4,7 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import type { IPhoto } from "@/types/types";
+import { getPreviewUrl, getThumbnailUrl } from "@/services/cloudinaryService";
 
 interface Props {
 	photos: IPhoto[];
@@ -13,7 +14,10 @@ interface Props {
 }
 
 export const PhotoLightbox = ({ photos, index, isOpen, onClose }: Props) => {
-	const slides = photos.map((p) => ({ src: p.url.replace('/upload/', '/upload/f_auto,q_auto/') }));
+	const slides = photos.map((p) => ({
+		src: getPreviewUrl(p.publicId),
+		thumbnail: getThumbnailUrl(p.publicId),
+	}));
 
 	return (
 		<Lightbox

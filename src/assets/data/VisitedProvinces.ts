@@ -1,0 +1,23 @@
+export const visitedProvinces = [
+	"ha-noi",
+	"cao-bang",
+	"ha-giang",
+	"dien-bien",
+	"lai-chau",
+	"lao-cai",
+	"son-la",
+	"yen-bai",
+	"hoa-binh",
+	"tuyen-quang",
+	"lang-son",
+	"quang-ninh",
+	"hai-phong",
+	"thanh-hoa",
+	"dong-bac",
+	"hai-duong",
+	"ha-nam",
+	"phu-tho",
+	"thai-nguyen",
+	"vinh-phuc",
+	"bac-ninh"
+];
