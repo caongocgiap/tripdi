@@ -33,12 +33,12 @@ export const Header = () => {
       initial={{ y: 0 }}
       animate={{ y: visible ? 0 : "-100%" }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/10"
+      className="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/10 shadow-lg"
     >
       <div className="container mx-auto py-4">
         <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold text-white">
-            <h1>Tripdi x NgocGiap</h1>
+          <div className="text-2xl font-bold text-amber-600">
+            <a href="/" className="text-amber-600 hover:text-amber-700 text-2xl font-bold">Tripdi x NgocGiap</a>
           </div>
           <div className="flex gap-4">
             <Button onClick={() => navigate('/admin')} variant="outline">To Admin Page</Button>

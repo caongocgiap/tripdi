@@ -3,11 +3,13 @@ import { PhotoLightbox } from "./PhotoLightbox";
 import type { IPhoto } from "@/types/types"
 import { usePhotos } from "@/hooks/usePhotos";
 import { Skeleton } from "../ui/skeleton";
-import { CheckCircleIcon } from "lucide-react";
+import { ArrowLeftIcon, CheckCircleIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const PhotoGallery = ({ AlbumId }: { AlbumId: string | null }) => {
   const [index, setIndex] = useState(-1);
   const { photos, loading, hasMore, fetchNextPage } = usePhotos(AlbumId);
+  const navigate = useNavigate();
 
   const photoItems = useMemo(() => {
     return photos.map((photo: IPhoto, i: number) => (
@@ -19,7 +21,7 @@ export const PhotoGallery = ({ AlbumId }: { AlbumId: string | null }) => {
         decoding="async"
         referrerPolicy="no-referrer"
         onClick={() => setIndex(i)}
-        className="w-full h-full object-cover cursor-zoom-in transition-all duration-500 rounded-2xl aspect-[3/4] shadow-soft group hover:scale-105"
+        className="w-full h-full object-cover cursor-zoom-in transition-all duration-500 rounded-2xl aspect-3/4 shadow-soft group hover:scale-105"
       />
     ));
   }, [photos]);
@@ -27,7 +29,7 @@ export const PhotoGallery = ({ AlbumId }: { AlbumId: string | null }) => {
   if (photos.length === 0 && !loading) {
     return (
       <div className="text-center text-lg font-bold py-20 text-gray-400">
-        Album này chưa có tấm ảnh nào.
+        Album này chưa có tấm ảnh nào, <span onClick={() => navigate(-1)} className="text-blue-500 cursor-pointer">Quay lại!</span>
       </div>
     );
   }
@@ -43,7 +45,7 @@ export const PhotoGallery = ({ AlbumId }: { AlbumId: string | null }) => {
       {loading && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-4 w-full">
           {[...Array(12)].map((_, i: number) => (
-            <Skeleton key={i} className="aspect-[3/4] w-full rounded-2xl" />
+            <Skeleton key={i} className="aspect-3/4 w-full rounded-2xl" />
           ))}
         </div>
       )}
@@ -51,12 +53,13 @@ export const PhotoGallery = ({ AlbumId }: { AlbumId: string | null }) => {
       {/* Load more */}
       {!loading && hasMore && (
         <div className="flex justify-center">
-          <button
+          <span>Còn nữa,&nbsp;</span>
+          <span
             onClick={fetchNextPage}
-            className="px-4 py-2 rounded-lg bg-black text-white hover:opacity-80"
+            className="text-blue-500 cursor-pointer"
           >
-            Load more
-          </button>
+            tải thêm nhé!
+          </span>
         </div>
       )}
 
@@ -65,6 +68,10 @@ export const PhotoGallery = ({ AlbumId }: { AlbumId: string | null }) => {
         <div className="text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
           <CheckCircleIcon className="w-4 h-4 text-green-500" />
           <span>Đã tải hết ảnh 🎉</span>
+          <span onClick={() => navigate(-1)} className="text-blue-500 cursor-pointer flex items-center gap-2">
+            <ArrowLeftIcon className="w-4 h-4 text-blue-500" />
+            Quay lại!
+          </span>
         </div>
       )}
 

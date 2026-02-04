@@ -19,8 +19,8 @@ import { NavOthers } from "./nav-others";
 import { NavMain } from "./nav-main";
 import {
   PREFIX_ADMIN,
-  PREFIX_ALBUM,
-  PREFIX_STATISTICS,
+  PREFIX_ADMIN_ALBUM,
+  PREFIX_ADMIN_STATISTICS,
 } from "@/constants/url.constant";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
@@ -34,19 +34,19 @@ const data = {
     },
     {
       title: "Album",
-      url: PREFIX_ALBUM,
+      url: PREFIX_ADMIN_ALBUM,
       icon: Folder,
     },
   ],
   navOthers: [
     {
       title: "Statistics",
-      url: PREFIX_STATISTICS,
+      url: PREFIX_ADMIN_STATISTICS,
       icon: ChartNoAxesCombined,
     },
     {
       title: "Favorite",
-      url: PREFIX_ALBUM,
+      url: PREFIX_ADMIN_ALBUM,
       icon: Heart,
     },
   ],

@@ -10,13 +10,14 @@ const DEFAULT_IMAGES: BannerImage[] = [
 	{ src: "https://res.cloudinary.com/tripdi/image/upload/v1769566956/z7475269215418_821b5304b32e012d89a6edd392699ab2_xzp6pb.jpg" },
 ];
 
+const TITLE = "Chuyến đi của tớ";
+const SUBTITLE = "Lưu lại từng khoảnh khắc trên mỗi lần tớ được đi";
+
 interface BannerSectionProps {
 	images?: (string | BannerImage)[];
-	title?: string;
-	subtitle?: string;
 }
 
-export const BannerSection = ({ images, title, subtitle }: BannerSectionProps) => {
+export const BannerSection = ({ images }: BannerSectionProps) => {
 	const [scrollY, setScrollY] = useState(0);
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -78,13 +79,11 @@ export const BannerSection = ({ images, title, subtitle }: BannerSectionProps) =
 				style={{ transform: `translateY(${scrollY * 0.1}px)` }}
 			>
 				<h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white text-center drop-shadow-[0_2px_24px_rgba(0,0,0,0.9)]">
-					{title}
+					{TITLE}
 				</h1>
-				{subtitle && (
-					<p className="mt-3 text-lg sm:text-xl text-white/90 drop-shadow-lg max-w-xl text-center">
-						{subtitle}
-					</p>
-				)}
+				<p className="mt-3 text-lg sm:text-xl text-white/90 drop-shadow-lg max-w-xl text-center">
+					{SUBTITLE}
+				</p>
 			</div>
 		</section>
 	);

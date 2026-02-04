@@ -32,35 +32,34 @@ export const SummarySection = ({ visited }: Props) => {
 	const visitedCount = visited.length;
 
 	return (
-		<section className="relative w-full h-screen flex items-center bg-linear-to-b from-amber-50/60 via-white to-sky-50/60">
+		<section className="relative w-full min-h-screen flex items-center py-16 bg-linear-to-b from-amber-50/70 via-white to-sky-50/70">
 			<motion.div
 				initial={{ opacity: 0, y: 40 }}
 				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ amount: 0.3, once: false }}
 				transition={{ duration: 0.6, ease: "easeOut" }}
-				className="grid gap-10 md:gap-14 md:grid-cols-2 items-center w-full container mx-auto"
+				className="flex flex-col md:flex-row gap-10 md:gap-14 items-center w-full container mx-auto"
 			>
 				<motion.div
 					initial={{ opacity: 0, x: -40 }}
 					whileInView={{ opacity: 1, x: 0 }}
 					viewport={{ amount: 0.3, once: false }}
 					transition={{ duration: 0.7, ease: "easeOut" }}
-					className="relative"
+					className="relative w-full md:flex-1 md:min-w-0"
 				>
-					<div className="relative rounded-3xl border border-white/60 bg-white/80 backdrop-blur shadow-[0_18px_60px_rgba(15,23,42,0.12)] overflow-hidden py-2">
+					<div className="relative rounded-3xl border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-xl shadow-slate-200/50 overflow-hidden">
 						<VietnamMap
-							className="w-full h-[80vh]"
+							className="w-full h-[70vh] min-h-[320px] object-contain"
 							onMouseOver={handleMouseOver}
 							onMouseOut={handleMouseOut}
 						/>
-
-						<div className="absolute top-4 left-4 flex flex-col gap-2">
-							<div className="flex items-center gap-2 text-xs text-slate-700">
-								<span className="h-3 w-3 rounded-[4px] bg-[#22c55e] shadow-[0_0_0_1px_rgba(16,185,129,0.5)]" />
+						<div className="absolute top-4 left-4 flex flex-wrap items-center gap-3 px-3 py-2.5 rounded-2xl bg-white/95 shadow-lg border border-slate-100/80 backdrop-blur-sm">
+							<div className="flex items-center gap-2 text-xs font-medium text-slate-700">
+								<span className="h-3.5 w-3.5 rounded-md bg-emerald-500 ring-2 ring-emerald-500/30" />
 								<span>Đã đặt chân</span>
 							</div>
-							<div className="flex items-center gap-2 text-xs text-slate-500">
-								<span className="h-3 w-3 rounded-[4px] bg-[#e5e7eb] shadow-[0_0_0_1px_rgba(148,163,184,0.7)]" />
+							<div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+								<span className="h-3.5 w-3.5 rounded-md bg-slate-200 ring-2 ring-slate-200" />
 								<span>Chưa đặt chân</span>
 							</div>
 						</div>
@@ -68,10 +67,10 @@ export const SummarySection = ({ visited }: Props) => {
 
 					{hoverName && (
 						<motion.div
-							initial={{ opacity: 0, y: -10 }}
+							initial={{ opacity: 0, y: -8 }}
 							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: -10 }}
-							className="absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/85 text-white text-xs md:text-sm px-3 py-1 rounded-lg pointer-events-none shadow-sm"
+							exit={{ opacity: 0, y: -8 }}
+							className="absolute top-3 left-1/2 -translate-x-1/2 bg-slate-800/90 text-white text-xs md:text-sm font-medium px-4 py-2 rounded-xl pointer-events-none shadow-lg ring-1 ring-white/10"
 						>
 							📍 {hoverName}
 						</motion.div>
@@ -83,53 +82,62 @@ export const SummarySection = ({ visited }: Props) => {
 					whileInView={{ opacity: 1, x: 0 }}
 					viewport={{ amount: 0.3, once: false }}
 					transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-					className="space-y-5 md:space-y-7"
+					className="w-full md:flex-1 md:max-w-md space-y-6 md:space-y-8"
 				>
 					<div>
-						<p className="text-xs font-semibold tracking-[0.25em] uppercase text-amber-600/80 mb-2">
+						<p className="text-xs font-semibold tracking-[0.2em] uppercase text-amber-600 mb-2">
 							Summary
 						</p>
-						<h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-							Hành trình 3 năm của tớ
+						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 leading-tight">
+							Hành trình 3 năm của tớ (11/2022 - Nay)
 						</h2>
-						<p className="text-sm text-slate-600">
+						<p className="text-sm text-slate-600 leading-relaxed">
 							Một chút tổng kết nhỏ về những nơi tớ đã đi qua và những dấu chân đang dần phủ kín bản đồ Việt Nam.
 						</p>
 					</div>
 
-					<div className="grid grid-cols-2 gap-4">
+					<div className="grid grid-cols-2 gap-3 sm:gap-4">
 						<motion.div
-							whileHover={{ scale: 1.03, translateY: -3 }}
-							transition={{ type: "spring", stiffness: 220, damping: 18 }}
-							className="rounded-2xl bg-linear-to-b from-amber-50 to-white shadow-sm border border-amber-100 px-4 py-3"
+							whileHover={{ scale: 1.02, y: -2 }}
+							transition={{ type: "spring", stiffness: 300, damping: 20 }}
+							className="rounded-2xl bg-linear-to-br from-amber-50 to-white shadow-md border border-amber-100/80 px-4 py-4 hover:shadow-lg hover:border-amber-200/80 transition-shadow"
 						>
-							<p className="text-xs uppercase tracking-wide text-amber-700/80">
+							<p className="text-xs font-medium uppercase tracking-wider text-amber-700/90">
 								Tỉnh thành đã đặt chân
 							</p>
-							<p className="mt-1 text-2xl font-semibold text-amber-700">
+							<p className="mt-2 text-2xl sm:text-3xl font-bold text-amber-700 tabular-nums">
 								{visitedCount}/64
 							</p>
 						</motion.div>
 
 						<motion.div
-							whileHover={{ scale: 1.03, translateY: -3 }}
-							transition={{ type: "spring", stiffness: 220, damping: 18 }}
-							className="rounded-2xl bg-linear-to-b from-sky-50 to-white shadow-sm border border-sky-100 px-4 py-3"
+							whileHover={{ scale: 1.02, y: -2 }}
+							transition={{ type: "spring", stiffness: 300, damping: 20 }}
+							className="rounded-2xl bg-linear-to-br from-sky-50 to-white shadow-md border border-sky-100/80 px-4 py-4 hover:shadow-lg hover:border-sky-200/80 transition-shadow"
 						>
-							<p className="text-xs uppercase tracking-wide text-sky-700/80">
+							<p className="text-xs font-medium uppercase tracking-wider text-sky-700/90">
 								Số chuyến đi
 							</p>
-							<p className="mt-1 text-2xl font-semibold text-sky-700">
+							<p className="mt-2 text-2xl sm:text-3xl font-bold text-sky-700 tabular-nums">
 								150+
 							</p>
 						</motion.div>
 					</div>
 
-					<div className="space-y-1.5 text-sm text-slate-700">
-						<p>• Khoảng 3 năm rong ruổi khắp miền Bắc.</p>
-						<p>• Hơn 80 chuyến đi chỉ riêng năm 2026.</p>
-						<p>• Mỗi điểm đến là một câu chuyện nhỏ trong cuốn nhật ký TripDi.</p>
-					</div>
+					<ul className="space-y-2 text-sm text-slate-600 list-none">
+						<li className="flex items-start gap-2">
+							<span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
+							<span>Tớ đã đi được gần hết miền Bắc Việt Nam.</span>
+						</li>
+						<li className="flex items-start gap-2">
+							<span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
+							<span>2025 là năm tớ đã đi được nhiều nhất.</span>
+						</li>
+						<li className="flex items-start gap-2">
+							<span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
+							<span>Mỗi chuyến đi đều khiến tớ cảm thấy trưởng thành thêm một chút.</span>
+						</li>
+					</ul>
 				</motion.div>
 			</motion.div>
 		</section>

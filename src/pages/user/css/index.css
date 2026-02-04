@@ -1,15 +1,19 @@
 .province {
-    fill: #e5e7eb;
-    stroke: #ffffff;
-    stroke-width: 1;
+    fill: #e2e8f0;
+    stroke: #f8fafc;
+    stroke-width: 1.2;
     cursor: pointer;
-    transition: fill 0.2s ease;
+    transition: fill 0.25s ease, stroke 0.2s ease;
 }
 
 .province.visited {
-    fill: #22c55e;
+    fill: #10b981;
 }
 
 .province:hover {
-    fill: #4ade80;
+    fill: #34d399;
+}
+
+.province.visited:hover {
+    fill: #059669;
 }
