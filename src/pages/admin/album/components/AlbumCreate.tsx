@@ -57,9 +57,12 @@ const AlbumCreate = () => {
           location: location,
           date: formattedDate,
           description,
-          coverImage: coverImageUrl.url,
+          coverImage: coverImageUrl.urlImage,
         },
-        uploadedImages
+        uploadedImages.map((image) => ({
+          url: image.urlImage,
+          publicId: image.publicId,
+        }))
       );
       alert("Album đã được tạo thành công!");
       resetForm();

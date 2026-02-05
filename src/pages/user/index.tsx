@@ -1,57 +1,75 @@
-import { useState } from "react";
-import AlbumCard from "@/components/gallery/AlbumCard";
-import PhotoGrid from "@/components/gallery/PhotoGrid";
-import { usePhotos } from "@/hooks/usePhotos";
-import type { IAlbum } from "@/types/photo";
-import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon } from "lucide-react";
+import { lazy, Suspense } from "react";
+import { BannerSection } from "./sections/BannerSection";
+import { AboutMeSection } from "./sections/AboutMeSection";
+import { visitedProvinces } from "@/assets/data/VisitedProvinces";
 import { Spinner } from "@/components/ui/spinner";
 
-export default function UserPage() {
-  const [selectedAlbumId, setSelectedAlbumId] = useState<string | null>(null);
-  const { albums, photos, loading } = usePhotos(selectedAlbumId);
+const SummarySection = lazy(() =>
+  import("./sections/SummarySection").then((module) => ({
+    default: module.SummarySection,
+  })),
+);
+const AlbumSection = lazy(() =>
+  import("./sections/AlbumSection").then((module) => ({
+    default: module.AlbumSection,
+  })),
+);
+const FuturePlanSection = lazy(() =>
+  import("./sections/FuturePlanSection").then((module) => ({
+    default: module.FuturePlanSection,
+  })),
+);
+const OutroSection = lazy(() =>
+  import("./sections/OutroSection").then((module) => ({
+    default: module.OutroSection,
+  })),
+);
 
-  if (loading) return (
-    <div className="text-center p-10 flex flex-col items-center justify-center gap-4 h-screen">
-      <Spinner className="w-10 h-10" />
-      <p className="text-lg font-bold">Loading data...</p>
-    </div>
-  );
+export default function UserPage() {
   return (
-    <>
-      <main className="max-w mx-auto mt-16 p-6 container">
-        {!selectedAlbumId ? (
-          <>
-            <h2 className="text-3xl font-bold mb-6">Chuyến đi của tôi</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {albums.map((album: IAlbum) => (
-                <AlbumCard
-                  key={album.id}
-                  album={album}
-                  onClick={setSelectedAlbumId}
-                />
-              ))}
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col gap-6">
-            <div className="flex align-center justify-between">
-              <h1 className="text-3xl font-bold">Ảnh trong chuyến đi</h1>
-              <Button
-                onClick={() => setSelectedAlbumId(null)}
-                variant="outline"
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <ArrowLeftIcon className="w-4 h-4" />
-                Quay lại danh sách album
-              </Button>
-            </div>
-            <PhotoGrid
-              photos={photos.filter((p) => p.albumId === selectedAlbumId)}
-            />
+    <main className="max-w">
+      <BannerSection />
+      <AboutMeSection />
+
+      <Suspense
+        fallback={
+          <div className="h-screen flex items-center justify-center">
+            <Spinner className="w-10 h-10" />
           </div>
-        )}
-      </main>
-    </>
-  )
+        }
+      >
+        <SummarySection visited={visitedProvinces} />
+      </Suspense>
+
+      <Suspense
+        fallback={
+          <div className="h-screen flex items-center justify-center">
+            <Spinner className="w-10 h-10" />
+          </div>
+        }
+      >
+        <FuturePlanSection />
+      </Suspense>
+
+      <Suspense
+        fallback={
+          <div className="h-screen flex items-center justify-center">
+            <Spinner className="w-10 h-10" />
+          </div>
+        }
+      >
+        <AlbumSection />
+      </Suspense>
+
+      <Suspense
+        fallback={
+          <div className="h-screen flex items-center justify-center">
+            <Spinner className="w-10 h-10" />
+          </div>
+        }
+      >
+        <OutroSection />
+      </Suspense>
+    </main>
+  );
 }

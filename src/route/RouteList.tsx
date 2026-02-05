@@ -3,8 +3,12 @@ import { useRoutes } from "react-router-dom";
 import Dashboard from "@/components/layout/Dashboard";
 import Layout from "@/components/layout/Layout";
 import NotFound from "@/pages/404/NotFound";
-import { PREFIX_ADMIN, PREFIX_ALBUM, PREFIX_HOME } from "@/constants/url.constant";
+import Forbidden from "@/pages/403/Forbidden";
+import { PREFIX_ADMIN, PREFIX_ADMIN_ALBUM, PREFIX_HOME, PREFIX_USER_ALBUM_DETAIL } from "@/constants/url.constant";
 import { Spinner } from "@/components/ui/spinner";
+import AlbumDetail from "@/pages/user/AlbumDetail";
+import { ProtectedRoute } from "./guard/ProtectedRoute";
+import LoginPage from "@/pages/login";
 
 const UserPage = lazy(() => import('@/pages/user'));
 const AdminPage = lazy(() => import('@/pages/admin'));
@@ -35,9 +39,26 @@ const withLayout = (Component: React.ReactNode) => {
 const RouteList = () => {
   const routes: RouteType[] = [
     { path: "*", element: <NotFound /> },
+    { path: "/403", element: <Forbidden /> },
+    { path: "/login", element: <LoginPage /> },
     { path: `${PREFIX_HOME}`, element: withLayout(<UserPage />) },
-    { path: `${PREFIX_ADMIN}`, element: withDashboard(<AdminPage />) },
-    { path: `${PREFIX_ALBUM}`, element: withDashboard(<AlbumPage />) },
+    { path: `${PREFIX_USER_ALBUM_DETAIL}/:albumId`, element: <AlbumDetail /> },
+    {
+      path: `${PREFIX_ADMIN}`,
+      element: (
+        <ProtectedRoute>
+          {withDashboard(<AdminPage />)}
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: `${PREFIX_ADMIN_ALBUM}`,
+      element: (
+        <ProtectedRoute>
+          {withDashboard(<AlbumPage />)}
+        </ProtectedRoute>
+      )
+    }
   ];
 
   const element = useRoutes(routes);

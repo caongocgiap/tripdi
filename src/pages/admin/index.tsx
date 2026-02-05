@@ -1,15 +1,15 @@
 import { useState } from "react";
 import AlbumCard from "@/components/gallery/AlbumCard";
-import PhotoGrid from "@/components/gallery/PhotoGrid";
-import { usePhotos } from "@/hooks/usePhotos";
-import type { IAlbum } from "@/types/photo";
+import { PhotoGallery } from "@/components/gallery/PhotoGallery";
+import type { IAlbum } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
+import { useAlbums } from "@/hooks/useAlbums";
 
 export default function AdminPage() {
-  const [selectedAlbumId, setSelectedAlbumId] = useState<string | null>(null);
-  const { albums, photos, loading } = usePhotos(selectedAlbumId);
+  const [ selectedAlbumId, setSelectedAlbumId ] = useState<string | null>(null);
+  const { albums, loading } = useAlbums();
 
   if (loading) return (
     <div className="text-center p-10 flex flex-col items-center justify-center gap-4 h-[calc(100vh-100px)]">
@@ -47,9 +47,7 @@ export default function AdminPage() {
                 Quay lại danh sách album
               </Button>
             </div>
-            <PhotoGrid
-              photos={photos.filter((p) => p.albumId === selectedAlbumId)}
-            />
+            <PhotoGallery AlbumId={selectedAlbumId} />
           </div>
         )}
       </main>
