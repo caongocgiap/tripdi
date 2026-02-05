@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { FaFacebookSquare, FaGithubSquare, FaLinkedin } from "react-icons/fa";
 
 export const Header = () => {
-  const navigate = useNavigate();
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
 
@@ -37,11 +35,19 @@ export const Header = () => {
     >
       <div className="container mx-auto py-4">
         <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold text-amber-600">
-            <a href="/" className="text-amber-600 hover:text-amber-700 text-2xl font-bold">Tripdi x NgocGiap</a>
+          <div className="text-2xl font-bold text-white">
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="text-white hover:text-gray-300 text-2xl font-bold cursor-pointer bg-transparent border-none p-0"
+            >
+              Tripdi x NgocGiap
+            </button>
           </div>
           <div className="flex gap-4">
-            <Button onClick={() => navigate('/admin')} variant="outline">To Admin Page</Button>
+            <FaFacebookSquare onClick={() => window.open("https://www.facebook.com/ngcoo.giapw", "_blank")} className="text-white hover:text-gray-300 text-2xl cursor-pointer" />
+            <FaLinkedin onClick={() => window.open("https://www.linkedin.com/in/ngcoo-giapw", "_blank")} className="text-white hover:text-gray-300 text-2xl cursor-pointer" />
+            <FaGithubSquare onClick={() => window.open("https://github.com/caongocgiap", "_blank")} className="text-white hover:text-gray-300 text-2xl cursor-pointer" />
           </div>
         </div>
       </div>
