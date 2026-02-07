@@ -37,3 +37,12 @@ export const getThumbnailUrl = (publicId: string) => {
 export const getPreviewUrl = (publicId: string) => {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/c_fit,w_1600,q_auto,f_auto/${publicId}`;
 };
+
+/** Thumbnail nhỏ cho grid (album edit), giảm tải khi nhiều ảnh */
+export const getSmallThumbUrl = (imageUrl: string) => {
+  if (!imageUrl?.includes("cloudinary.com")) return imageUrl ?? "";
+  return imageUrl.replace(
+    "/upload/",
+    "/upload/c_fill,w_96,h_96,q_auto,f_auto/"
+  );
+};

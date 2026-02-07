@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { auth } from '@/config/firebase'; // Đảm bảo đường dẫn này đúng
+import { auth } from '@/config/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,6 @@ const LoginPage = () => {
 	const [user, loading] = useAuthState(auth);
 	const navigate = useNavigate();
 
-	// Nếu đã đăng nhập rồi thì tự động chuyển về trang admin
 	useEffect(() => {
 		if (user) {
 			navigate('/admin');
@@ -22,12 +21,12 @@ const LoginPage = () => {
 		try {
 			await signInWithPopup(auth, provider);
 		} catch (error) {
-			console.error("Lỗi đăng nhập:", error);
-			alert("Đăng nhập thất bại, thử lại nhé Giáp!");
+			console.error("Login error:", error);
+			alert("Login failed, please try again!");
 		}
 	};
 
-	if (loading) return <div className="h-screen flex items-center justify-center">Đang tải...</div>;
+	if (loading) return <div className="h-screen flex items-center justify-center">Loading...</div>;
 
 	return (
 		<div className="h-screen w-full flex items-center justify-center bg-[#faf9f6]">
@@ -40,15 +39,15 @@ const LoginPage = () => {
 					<FaMapPin size={28} />
 				</div>
 
-				<h1 className="text-3xl font-bold text-gray-900 mb-2">Chào Giáp!</h1>
-				<p className="text-gray-500 mb-8">Đăng nhập bằng Google để quản lý hành trình TripDi của bạn.</p>
+				<h1 className="text-3xl font-bold text-gray-900 mb-2">Hello Giap!</h1>
+				<p className="text-gray-500 mb-8">Login with Google to manage your trip TripDi.</p>
 
 				<button
 					onClick={handleLogin}
 					className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-100 py-4 px-6 rounded-2xl font-semibold text-gray-700 hover:bg-gray-50 hover:border-orange-200 transition-all duration-300 shadow-sm"
 				>
 					<FaGoogle size={22} className="text-red-500" />
-					<span>Tiếp tục với Google</span>
+					<span>Continue with Google</span>
 				</button>
 
 				<div className="mt-8">
@@ -56,7 +55,7 @@ const LoginPage = () => {
 						onClick={() => navigate('/')}
 						className="text-sm text-gray-400 hover:text-orange-600 transition-colors"
 					>
-						← Quay lại trang chủ
+						← Back to home
 					</button>
 				</div>
 			</motion.div>

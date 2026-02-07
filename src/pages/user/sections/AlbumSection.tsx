@@ -43,7 +43,7 @@ export const AlbumSection = () => {
 			<section className="relative w-full min-h-screen flex items-center justify-center py-16 bg-linear-to-b from-amber-50/50 via-white to-sky-50/50">
 				<div className="flex flex-col items-center justify-center gap-5">
 					<Spinner className="w-10 h-10 text-amber-600" />
-					<p className="text-slate-600 font-medium">Đang tải chuyến đi...</p>
+					<p className="text-slate-600 font-medium">Loading trips...</p>
 				</div>
 			</section>
 		);

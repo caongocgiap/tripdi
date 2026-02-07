@@ -38,7 +38,7 @@ const AlbumCreate = () => {
 
   const handleCreateAlbum = async () => {
     if (!nameTrip || !location || !date || !coverImage || (images && images.length === 0)) {
-      return alert("Vui lòng nhập đầy đủ thông tin");
+      return alert("Please fill in all the information");
     }
     setUploading(true);
     try {
@@ -64,12 +64,12 @@ const AlbumCreate = () => {
           publicId: image.publicId,
         }))
       );
-      alert("Album đã được tạo thành công!");
+      alert("Album created successfully!");
       resetForm();
       setOpen(false);
     } catch (error) {
       console.error(error);
-      alert("Có lỗi xảy ra!" + error);
+      alert("Error creating album: " + error);
     } finally {
       setUploading(false);
     }
